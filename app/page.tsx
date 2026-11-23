@@ -117,7 +117,7 @@ export default function Home() {
     <aside className={`sidebar ${mobileMenu ? "show" : ""}`}>
       <div className="brand"><div className="brand-mark"><BookOpen size={23}/></div><div><b>فوج التميز</b><small>منصة المتابعة التربوية</small></div></div>
       <div className="side-label">القائمة الرئيسية</div>
-      <nav>{nav.map(item=><button key={item.label} onClick={()=>{setSection(item.label);setMobileMenu(false)}} className={`nav-item ${section===item.label?"selected":""}`}><item.icon size={18}/><span>{item.label}</span>{section===item.label&&<i/>}</button>)}</nav>
+      <nav>{nav.map(item=><button key={item.label} onClick={()=>{setMobileMenu(false);if(item.label==="التلاميذ"){window.location.href="/students";}else{setSection(item.label);}}} className={`nav-item ${section===item.label?"selected":""}`}><item.icon size={18}/><span>{item.label}</span>{section===item.label&&<i/>}</button>)}</nav>
       <div className="sidebar-bottom"><div className="admin-avatar">م</div><div className="admin-info"><b>المشرف</b><small>{userEmail}</small></div><button className="icon-button" onClick={signOut} title="تسجيل الخروج"><LogOut size={17}/></button></div>
     </aside>
     <main className="main-area">
@@ -130,7 +130,7 @@ export default function Home() {
           <Stat icon={<BookOpen/>} label="تقييمات الحفظ والمراجعة" value={String(recitations.length).padStart(2,"0")} note="آخر السجلات"/>
           <Stat icon={<ChartNoAxesCombined/>} label="متوسط العلامات المسجلة" value={avg} note="من 20 حسب السجلات"/>
         </div>
-        <div className="section-heading"><div><h3>التلاميذ</h3><p>نظرة سريعة على أعضاء الفوج</p></div><button className="secondary-button" onClick={()=>setSection("التلاميذ")}>عرض الجميع <ChevronLeft size={16}/></button></div>
+        <div className="section-heading"><div><h3>التلاميذ</h3><p>نظرة سريعة على أعضاء الفوج</p></div><button className="secondary-button" onClick={()=>{window.location.href="/students";}}>عرض الجميع <ChevronLeft size={16}/></button></div>
         <div className="panel student-panel"><div className="table-wrap"><table><thead><tr><th>التلميذ</th><th>المحفوظ السابق</th><th>ولي الأمر</th><th>الحالة</th></tr></thead><tbody>
           {loading ? <tr><td colSpan={4}>جارٍ تحميل البيانات...</td></tr> : students.length ? students.map(s=><tr key={s.id}><td><b>{s.full_name}</b></td><td>{s.previous_hizb ?? "—"} أحزاب</td><td>{s.guardian_name || "غير مسجل"}</td><td><span className="status-pill"><i/> {s.status==="active"?"نشط":"غير نشط"}</span></td></tr>) : <tr><td colSpan={4}>لا توجد بيانات بعد. تحقق من تنفيذ ملف قاعدة البيانات.</td></tr>}
         </tbody></table></div></div>
